@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import MovieList from "./MovieList";
+import Filter from "./Filter";
 
 function App() {
+  const [movies, setMovies] = useState([
+    {
+      title: "Inception",
+      description: "A mind-bending thriller.",
+      posterURL: "/images.jpeg",
+      rating: 5,
+    },
+  ]);
+
+  const addMovie = (newMovie) => {
+    setMovies([...movies, newMovie]);
+  };
+
+  const filterMovies = (titleFilter, rateFilter) => {
+    return movies.filter(
+      (movie) =>
+        movie.title.toLowerCase().includes(titleFilter.toLowerCase()) &&
+        movie.rating >= rateFilter
+    );
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Movie App</h1>
+      <Filter addMovie={addMovie} />
+      <MovieList movies={movies} filterMovies={filterMovies} />
     </div>
   );
 }
